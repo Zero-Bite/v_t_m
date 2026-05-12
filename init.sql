@@ -37,29 +37,20 @@ CREATE TABLE IF NOT EXISTS votes (
   CONSTRAINT fk_votes_criteria FOREIGN KEY (criteria_id) REFERENCES criteria(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Test data
 INSERT INTO users (username, password_hash, display_name, color)
 VALUES
-  ('judge1', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 1', '#FF6B6B'),
-  ('judge2', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 2', '#4ECDC4'),
-  ('judge3', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 3', '#FFE66D'),
-  ('judge4', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 4', '#A8E6CF'),
-  ('judge5', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 5', '#FFD3B6'),
-  ('judge6', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 6', '#D4A5A5'),
-  ('judge7', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 7', '#B5EAD7'),
-  ('judge8', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 8', '#C7CEEA'),
-  ('judge9', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 9', '#FFDAC1'),
-  ('judge10', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 10', '#E2F0CB')
+  ('judge1',  '$2b$12$4svAQN7Tcnoz6keZycKbHuec8mLU7StfjDbLg5MsItGiuel6jPisG', 'Эксперт 1',  '#FF6B6B'),
+  ('judge2',  '$2b$12$fqAhg9warvVEDmOg2QdsU.y.Ay6FvAkGIdJAxeruW0ik7DHzG2Ed.', 'Эксперт 2',  '#4ECDC4'),
+  ('judge3',  '$2b$12$OArMxf2/GM3dyzUoXUE.L.jZ1jHERV6jsbd8.ZUWteuMZoLgeuNby', 'Эксперт 3',  '#FFE66D'),
+  ('judge4',  '$2b$12$lXyE0maMNAy.voXQrO8Wz.F4F1GNvFIWdw/1RrT581pvZmz4FgqMK', 'Эксперт 4',  '#A8E6CF'),
+  ('judge5',  '$2b$12$Fd5X5sYENj/NgtsMdnlVyehC6c/lzSsZJl3nI.UOc57QuRfUGLrVu', 'Эксперт 5',  '#FFD3B6'),
+  ('judge6',  '$2b$12$NCi2oQjSs3Bf9YeJ7GJAqO.NwI6bKKPrSrUhzT37vCPpKsAsLsQ7e', 'Эксперт 6',  '#D4A5A5'),
+  ('judge7',  '$2b$12$vJQtbhGzW.DuVjaBSFd53.W7dL8xmAV6mhuTYm255hqeSK9XGmM2.', 'Эксперт 7',  '#B5EAD7'),
+  ('judge8',  '$2b$12$eX/dgjimRX7uncaREZfzJO3QifZQQ.BZ8tTIeXurrcfETb4wZGYuu',  'Эксперт 8',  '#C7CEEA'),
+  ('judge9',  '$2b$12$46ydw.kw1JSCwmPHDLPDU.pIIzIbBYjqJHVdibpKdTRrSQLe4a65a', 'Эксперт 9',  '#FFDAC1'),
+  ('judge10', '$2b$12$396qp67jerMbe9rlpWKyre5N2.9/VJYtFSlm4gsmRBcRLD.Cx1il2',  'Эксперт 10', '#E2F0CB')
 ON DUPLICATE KEY UPDATE
   password_hash = VALUES(password_hash);
-
-INSERT INTO projects (title, description, is_active)
-VALUES
-  ('EcoTrack — приложение для отслеживания углеродного следа', 'EcoTrack помогает командам измерять и снижать углеродный след с помощью простых метрик, аналитики и привычек.', TRUE)
-ON DUPLICATE KEY UPDATE
-  title = VALUES(title),
-  description = VALUES(description),
-  is_active = VALUES(is_active);
 
 INSERT INTO criteria (name, max_score)
 VALUES
@@ -71,4 +62,3 @@ VALUES
 ON DUPLICATE KEY UPDATE
   name = VALUES(name),
   max_score = VALUES(max_score);
-
