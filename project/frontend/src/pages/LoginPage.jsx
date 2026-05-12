@@ -7,8 +7,8 @@ import { Card, CardHeader, CardTitle } from "../components/ui/card.jsx";
 
 export default function LoginPage({ token, onLogin }) {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("judge1");
-  const [password, setPassword] = useState("1111");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -65,12 +65,6 @@ export default function LoginPage({ token, onLogin }) {
             <Button type="submit" disabled={loading} className="w-full">
               {loading ? "Проверяем..." : "Войти"}
             </Button>
-
-            <div className="text-xs text-slate-500">
-              Тестовые данные: <span className="font-medium">judge1/1111</span>,{" "}
-              <span className="font-medium">judge2/1111</span>,{" "}
-              <span className="font-medium">judge3/1111</span>
-            </div>
           </form>
         </Card>
       </div>

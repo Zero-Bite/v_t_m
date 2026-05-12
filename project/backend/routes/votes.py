@@ -62,6 +62,14 @@ async def save_votes_for_project(
             detail=f"Must submit exactly all criteria. Expected {sorted(expected_ids)}, got {sorted(given_ids)}.",
         )
 
+    flags = {v.is_public_initiative for v in votes}
+    if len(flags) > 1:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="is_public_initiative must be the same for all criteria in one submission",
+        )
+    public_flag = next(iter(flags)) if flags else False
+
     # Store vote history: each submit creates new rows (no upsert).
     saved_count = 0
     for item in votes:
@@ -80,6 +88,7 @@ async def save_votes_for_project(
                 project_id=project.id,
                 criteria_id=item.criteria_id,
                 score=item.score,
+                is_public_initiative=public_flag,
             )
         )
         saved_count += 1
@@ -186,8 +195,22 @@ async def get_votes(
     votes = list(votes_res.scalars().all())
 
     score_by_user: Dict[int, Dict[int, int]] = {}
+    initiative_by_user: Dict[int, bool] = {}
     for v in votes:
         score_by_user.setdefault(v.user_id, {})[v.criteria_id] = v.score
+        initiative_by_user[v.user_id] = v.is_public_initiative
+
+    criteria_with_avg = []
+    for c in criteria_list:
+        present_scores: list[int] = []
+        for u in users:
+            s = score_by_user.get(u.id, {}).get(c.id)
+            if s is not None:
+                present_scores.append(s)
+        avg = sum(present_scores) / len(present_scores) if present_scores else None
+        criteria_with_avg.append(
+            {"id": c.id, "name": c.name, "max_score": c.max_score, "score": avg}
+        )
 
     judges_payload = []
     for u in users:
@@ -201,15 +224,13 @@ async def get_votes(
                 "display_name": u.display_name,
                 "color": u.color,
                 "scores": scores,
+                "is_public_initiative": initiative_by_user.get(u.id),
             }
         )
 
     return VotesResponse(
         project_id=project_id,
-        criteria=[
-            {"id": c.id, "name": c.name, "max_score": c.max_score}
-            for c in criteria_list
-        ],
+        criteria=criteria_with_avg,
         judges=judges_payload,
     )
 

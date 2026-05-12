@@ -187,6 +187,7 @@ async def export_votes_xlsx(
             "criteria_id",
             "criteria_name",
             "score",
+            "Общественная инициатива",
         ]
     )
 
@@ -202,6 +203,7 @@ async def export_votes_xlsx(
                 criteria.id,
                 criteria.name,
                 vote.score,
+                "Да" if vote.is_public_initiative else "Нет",
             ]
         )
 

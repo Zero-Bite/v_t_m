@@ -84,6 +84,14 @@ async def on_startup() -> None:
             await conn.execute(text("ALTER TABLE votes DROP INDEX uq_user_project_criteria"))
         except Exception:
             pass
+        try:
+            await conn.execute(
+                text(
+                    "ALTER TABLE votes ADD COLUMN is_public_initiative BOOLEAN NOT NULL DEFAULT FALSE"
+                )
+            )
+        except Exception:
+            pass
         # Keep demo credentials stable even with persisted DB volumes.
         await conn.execute(
             text(
@@ -92,7 +100,14 @@ async def on_startup() -> None:
                 VALUES
                   ('judge1', :password_hash, 'Эксперт 1', '#FF6B6B'),
                   ('judge2', :password_hash, 'Эксперт 2', '#4ECDC4'),
-                  ('judge3', :password_hash, 'Эксперт 3', '#FFE66D')
+                  ('judge3', :password_hash, 'Эксперт 3', '#FFE66D'),
+                  ('judge4', :password_hash, 'Эксперт 4', '#A8E6CF'),
+                  ('judge5', :password_hash, 'Эксперт 5', '#FFD3B6'),
+                  ('judge6', :password_hash, 'Эксперт 6', '#D4A5A5'),
+                  ('judge7', :password_hash, 'Эксперт 7', '#B5EAD7'),
+                  ('judge8', :password_hash, 'Эксперт 8', '#C7CEEA'),
+                  ('judge9', :password_hash, 'Эксперт 9', '#FFDAC1'),
+                  ('judge10', :password_hash, 'Эксперт 10', '#E2F0CB')
                 ON DUPLICATE KEY UPDATE
                   password_hash = VALUES(password_hash),
                   display_name = VALUES(display_name),

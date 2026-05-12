@@ -20,6 +20,7 @@ export default function VotingPage({ token }) {
   const [statusData, setStatusData] = useState(null);
 
   const [scoresByCriteria, setScoresByCriteria] = useState({});
+  const [isPublicInitiative, setIsPublicInitiative] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -44,6 +45,7 @@ export default function VotingPage({ token }) {
       initScores[c.id] = found?.score ?? 1;
     }
     setScoresByCriteria(initScores);
+    setIsPublicInitiative(Boolean(myJudge?.is_public_initiative));
   }
 
   useEffect(() => {
@@ -127,6 +129,7 @@ export default function VotingPage({ token }) {
       }
       return next;
     });
+    setIsPublicInitiative(Boolean(myJudge.is_public_initiative));
   }, [votesData, me]);
 
   const criteria = useMemo(() => votesData?.criteria ?? [], [votesData]);
@@ -192,6 +195,7 @@ export default function VotingPage({ token }) {
       const payload = criteria.map((c) => ({
         criteria_id: c.id,
         score: scoresByCriteria[c.id] ?? 1,
+        is_public_initiative: isPublicInitiative,
       }));
 
       await postVotesForProject(token, projectId, payload);
@@ -291,7 +295,7 @@ export default function VotingPage({ token }) {
                 {итогScore == null ? "—" : Number.isInteger(итогScore) ? итогScore : итогScore.toFixed(1)} / {maxTotal} баллов
               </div>
               <div className="mt-1 text-xs text-slate-500">
-                Средняя оценка считается по числу проголосовавших: 1 голос - деление на 1, 2 голоса - на 2, 3 голоса - на 3.
+                Средняя по каждому критерию — только среди экспертов, которые уже проголосовали (делитель = число проголосовавших).
               </div>
             </div>
           </div>
@@ -325,6 +329,22 @@ export default function VotingPage({ token }) {
                 onChange={(v) => setScoresByCriteria((prev) => ({ ...prev, [c.id]: v }))}
               />
             ))}
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-slate-100 pt-6">
+            <span className="text-sm text-slate-600">Нет</span>
+            <label className="relative inline-flex h-7 w-12 shrink-0 cursor-pointer items-center">
+              <input
+                type="checkbox"
+                className="peer sr-only"
+                checked={isPublicInitiative}
+                onChange={(e) => setIsPublicInitiative(e.target.checked)}
+              />
+              <span className="absolute inset-0 rounded-full bg-slate-200 transition-colors peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-blue-500 peer-checked:bg-blue-600" />
+              <span className="pointer-events-none absolute left-0.5 top-0.5 h-6 w-6 rounded-full bg-white shadow transition-transform peer-checked:translate-x-5" />
+            </label>
+            <span className="text-sm text-slate-600">Да</span>
+            <span className="text-sm font-medium text-slate-900">Общественная инициатива</span>
           </div>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">

@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS votes (
   project_id INT NOT NULL,
   criteria_id INT NOT NULL,
   score TINYINT NOT NULL,
+  is_public_initiative BOOLEAN NOT NULL DEFAULT FALSE,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_votes_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   CONSTRAINT fk_votes_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
@@ -41,7 +42,14 @@ INSERT INTO users (username, password_hash, display_name, color)
 VALUES
   ('judge1', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 1', '#FF6B6B'),
   ('judge2', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 2', '#4ECDC4'),
-  ('judge3', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 3', '#FFE66D')
+  ('judge3', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 3', '#FFE66D'),
+  ('judge4', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 4', '#A8E6CF'),
+  ('judge5', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 5', '#FFD3B6'),
+  ('judge6', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 6', '#D4A5A5'),
+  ('judge7', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 7', '#B5EAD7'),
+  ('judge8', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 8', '#C7CEEA'),
+  ('judge9', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 9', '#FFDAC1'),
+  ('judge10', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Эксперт 10', '#E2F0CB')
 ON DUPLICATE KEY UPDATE
   password_hash = VALUES(password_hash);
 

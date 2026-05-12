@@ -37,11 +37,13 @@ class CriteriaOut(BaseModel):
     id: int
     name: str
     max_score: int = 5
+    score: Optional[float] = None
 
 
 class VoteItem(BaseModel):
     criteria_id: int
     score: int = Field(ge=1, le=5)
+    is_public_initiative: bool = False
 
 
 class SaveVotesResponse(BaseModel):
@@ -59,6 +61,7 @@ class JudgeVotesOut(BaseModel):
     display_name: str
     color: str
     scores: list[CriteriaScoreOut]
+    is_public_initiative: Optional[bool] = None
 
 
 class VotesResponse(BaseModel):

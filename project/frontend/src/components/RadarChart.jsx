@@ -51,7 +51,7 @@ export default function RadarChart({ votesData }) {
             {judges.map((j) => (
               <Radar
                 key={j.user_id}
-                name="Эксперт"
+                name={j.display_name || "Эксперт"}
                 dataKey={judgeKey(j.user_id)}
                 stroke={j.color}
                 fill={j.color}
@@ -64,16 +64,16 @@ export default function RadarChart({ votesData }) {
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {judges.map((j) => (
           <div key={j.user_id} className="rounded-md border border-slate-200 p-3">
             <div className="flex items-center gap-2">
               <span
-                className="inline-block h-3 w-3 rounded-full"
+                className="inline-block h-3 w-3 shrink-0 rounded-full"
                 style={{ backgroundColor: j.color }}
               />
-              <div className="text-sm font-semibold text-slate-900">
-                Эксперт
+              <div className="truncate text-sm font-semibold text-slate-900">
+                {j.display_name || "Эксперт"}
               </div>
             </div>
             <div className="mt-2 text-xs text-slate-600">
