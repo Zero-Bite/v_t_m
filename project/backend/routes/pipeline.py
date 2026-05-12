@@ -187,7 +187,7 @@ async def export_votes_xlsx(
             "criteria_id",
             "criteria_name",
             "score",
-            "Общественная инициатива",
+            "Программа признания",
         ]
     )
 

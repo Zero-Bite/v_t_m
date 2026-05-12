@@ -347,7 +347,7 @@ export default function VotingPage({ token }) {
               <span className="pointer-events-none absolute left-0.5 top-0.5 h-6 w-6 rounded-full bg-white shadow transition-transform peer-checked:translate-x-5" />
             </label>
             <span className="text-sm text-slate-600">Да</span>
-            <span className="text-sm font-medium text-slate-900">Общественная инициатива</span>
+            <span className="text-sm font-medium text-slate-900">Программа признания</span>
           </div>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
