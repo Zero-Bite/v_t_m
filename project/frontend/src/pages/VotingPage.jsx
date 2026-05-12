@@ -261,38 +261,41 @@ export default function VotingPage({ token }) {
         ) : null}
 
         <div className="rounded-lg border border-slate-200 bg-white p-4 sm:p-5">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between lg:gap-6">
-            <div className="min-w-0 flex-1">
-              {projects.length ? (
-                <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
-                  <div className="text-sm font-medium text-slate-900">Инициатива</div>
-                  <select
-                    className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 sm:max-w-[520px]"
-                    value={projectId ?? ""}
-                    onChange={(e) => {
-                      const id = Number(e.target.value);
-                      const selected = projects.find((p) => p.id === id);
-                      if (!selected) return;
-                      setProject({ id: selected.id, title: selected.title, description: selected.description });
-                    }}
-                  >
-                    {projects.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.title.length > 90 ? `${p.title.slice(0, 90)}…` : p.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              ) : null}
-              <h1 className="text-xl font-semibold text-slate-900 sm:text-2xl">
+          {projects.length ? (
+            <div className="mb-4 flex w-full min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+              <div className="shrink-0 text-sm font-medium text-slate-900">Инициатива</div>
+              <select
+                className="min-w-0 w-full flex-1 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                value={projectId ?? ""}
+                onChange={(e) => {
+                  const id = Number(e.target.value);
+                  const selected = projects.find((p) => p.id === id);
+                  if (!selected) return;
+                  setProject({ id: selected.id, title: selected.title, description: selected.description });
+                }}
+              >
+                {projects.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.title.length > 90 ? `${p.title.slice(0, 90)}…` : p.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
+
+          <div className="flex w-full min-w-0 flex-col gap-4 lg:flex-row lg:items-start lg:gap-6">
+            <div className="min-w-0 w-full flex-1">
+              <h1 className="w-full text-xl font-semibold text-slate-900 sm:text-2xl">
                 {project?.title ?? "Загрузка..."}
               </h1>
-              <p className="mt-2 whitespace-pre-wrap break-words text-sm text-slate-700 sm:text-base">{project?.description ?? ""}</p>
+              <p className="mt-2 w-full whitespace-pre-wrap break-words text-sm text-slate-700 sm:text-base">
+                {project?.description ?? ""}
+              </p>
             </div>
-            <div className="text-left lg:text-right">
+            <div className="w-full shrink-0 text-left lg:max-w-xs lg:text-right">
               <div className="text-sm text-slate-500">Итог</div>
               <div className="text-xl font-semibold text-slate-900">
-                {итогScore == null ? "—" : Number.isInteger(итогScore) ? итогScore : итогScore.toFixed(1)} / {maxTotal} баллов
+                {`${итогScore == null ? "—" : Number.isInteger(итогScore) ? итогScore : итогScore.toFixed(1)} / ${maxTotal} баллов`}
               </div>
               <div className="mt-1 text-xs text-slate-500">
                 Средняя по каждому критерию — только среди экспертов, которые уже проголосовали (делитель = число проголосовавших).
